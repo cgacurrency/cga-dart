@@ -14,10 +14,10 @@ void main() {
       String privKey = '67EDBC8F904091738DF33B4B6917261DB91DD9002D3985A7BA090345264A46C6';
       expect(NanoAccounts.createAccount(NanoAccountType.XPD, 
                                         NanoKeys.createPublicKey(privKey)),
-            'ban_1p95xji1g5gou8auj8h6qcuezpdpcyoqmawao6mpwj4p44939oouoturkggc');
+            'xpd_1p95xji1g5gou8auj8h6qcuezpdpcyoqmawao6mpwj4p44939oouoturkggc');
       expect(NanoAccounts.createAccount(NanoAccountType.CGA, 
                                         NanoKeys.createPublicKey(privKey)),
-            'nano_1p95xji1g5gou8auj8h6qcuezpdpcyoqmawao6mpwj4p44939oouoturkggc');
+            'cga_1p95xji1g5gou8auj8h6qcuezpdpcyoqmawao6mpwj4p44939oouoturkggc');
     });
 
     test('test hex to byte array and back', () {
@@ -39,50 +39,50 @@ void main() {
     });
     test('test address validation', () {
       // Three valid accounts
-      expect(NanoAccounts.isValid(NanoAccountType.XPD, 'ban_1p95xji1g5gou8auj8h6qcuezpdpcyoqmawao6mpwj4p44939oouoturkggc'), true);
-      expect(NanoAccounts.isValid(NanoAccountType.CGA, 'xrb_1p95xji1g5gou8auj8h6qcuezpdpcyoqmawao6mpwj4p44939oouoturkggc'), true);
-      expect(NanoAccounts.isValid(NanoAccountType.CGA, 'nano_1p95xji1g5gou8auj8h6qcuezpdpcyoqmawao6mpwj4p44939oouoturkggc'), true);
+      expect(NanoAccounts.isValid(NanoAccountType.XPD, 'xpd_1p95xji1g5gou8auj8h6qcuezpdpcyoqmawao6mpwj4p44939oouoturkggc'), true);
+      expect(NanoAccounts.isValid(NanoAccountType.CGA, 'cga_1p95xji1g5gou8auj8h6qcuezpdpcyoqmawao6mpwj4p44939oouoturkggc'), true);
+      expect(NanoAccounts.isValid(NanoAccountType.CGA, 'cga_1p95xji1g5gou8auj8h6qcuezpdpcyoqmawao6mpwj4p44939oouoturkggc'), true);
       // Invalid checksum
-      expect(NanoAccounts.isValid(NanoAccountType.XPD, 'ban_3zzzzzzzzzzzhw11111111111111111111111111111111111111spcronyu'), false);
+      expect(NanoAccounts.isValid(NanoAccountType.XPD, 'xpd_3zzzzzzzzzzzhw11111111111111111111111111111111111111spcronyu'), false);
       // Too short of length
-      expect(NanoAccounts.isValid(NanoAccountType.XPD, 'ban_1p95xji1g5gou8auj8h6qcuezpdpcyoqmawao6mpwj4p44939oouoturkg'), false);
+      expect(NanoAccounts.isValid(NanoAccountType.XPD, 'xpd_1p95xji1g5gou8auj8h6qcuezpdpcyoqmawao6mpwj4p44939oouoturkg'), false);
       // Invalid prefix
-      expect(NanoAccounts.isValid(NanoAccountType.XPD, 'xrb_1p95xji1g5gou8auj8h6qcuezpdpcyoqmawao6mpwj4p44939oouoturkggc'), false);
+      expect(NanoAccounts.isValid(NanoAccountType.XPD, 'cga_1p95xji1g5gou8auj8h6qcuezpdpcyoqmawao6mpwj4p44939oouoturkggc'), false);
     });
 
     test('test state block hash computation', () {
       // open state block
       int accountType = NanoAccountType.CGA;
-      String account = 'xrb_3igf8hd4sjshoibbbkeitmgkp1o6ug4xads43j6e4gqkj5xk5o83j8ja9php';
+      String account = 'cga_3igf8hd4sjshoibbbkeitmgkp1o6ug4xads43j6e4gqkj5xk5o83j8ja9php';
       String previous = '0';
-      String representative = 'xrb_3p1asma84n8k84joneka776q4egm5wwru3suho9wjsfyuem8j95b3c78nw8j';
+      String representative = 'cga_3p1asma84n8k84joneka776q4egm5wwru3suho9wjsfyuem8j95b3c78nw8j';
       BigInt balance = BigInt.parse('1');
       String link = '1EF0AD02257987B48030CC8D38511D3B2511672F33AF115AD09E18A86A8355A8';
       String calculatedHash = NanoBlocks.computeStateHash(accountType, account, previous, representative, balance, link);
       expect(calculatedHash,
             'FC5A7FB777110A858052468D448B2DF22B648943C097C0608D1E2341007438B0');
       // receive state block
-      account = 'xrb_3igf8hd4sjshoibbbkeitmgkp1o6ug4xads43j6e4gqkj5xk5o83j8ja9php';
+      account = 'cga_3igf8hd4sjshoibbbkeitmgkp1o6ug4xads43j6e4gqkj5xk5o83j8ja9php';
       previous = 'FC5A7FB777110A858052468D448B2DF22B648943C097C0608D1E2341007438B0';
-      representative = 'xrb_3p1asma84n8k84joneka776q4egm5wwru3suho9wjsfyuem8j95b3c78nw8j';
+      representative = 'cga_3p1asma84n8k84joneka776q4egm5wwru3suho9wjsfyuem8j95b3c78nw8j';
       balance = BigInt.parse('5000000000000000000000000000001');
       link = 'B2EC73C1F503F47E051AD72ECB512C63BA8E1A0ACC2CEE4EA9A22FE1CBDB693F';
       calculatedHash = NanoBlocks.computeStateHash(accountType, account, previous, representative, balance, link);
       expect(calculatedHash,
             '597395E83BD04DF8EF30AF04234EAAFE0606A883CF4AEAD2DB8196AAF5C4444F');
       // send state block
-      account = 'xrb_3igf8hd4sjshoibbbkeitmgkp1o6ug4xads43j6e4gqkj5xk5o83j8ja9php';
+      account = 'cga_3igf8hd4sjshoibbbkeitmgkp1o6ug4xads43j6e4gqkj5xk5o83j8ja9php';
       previous = '597395E83BD04DF8EF30AF04234EAAFE0606A883CF4AEAD2DB8196AAF5C4444F';
-      representative = 'xrb_3p1asma84n8k84joneka776q4egm5wwru3suho9wjsfyuem8j95b3c78nw8j';
+      representative = 'cga_3p1asma84n8k84joneka776q4egm5wwru3suho9wjsfyuem8j95b3c78nw8j';
       balance = BigInt.parse('3000000000000000000000000000001');
-      link = 'xrb_1q3hqecaw15cjt7thbtxu3pbzr1eihtzzpzxguoc37bj1wc5ffoh7w74gi6p';
+      link = 'cga_1q3hqecaw15cjt7thbtxu3pbzr1eihtzzpzxguoc37bj1wc5ffoh7w74gi6p';
       calculatedHash = NanoBlocks.computeStateHash(accountType, account, previous, representative, balance, link);
       expect(calculatedHash,
             '128106287002E595F479ACD615C818117FCB3860EC112670557A2467386249D4');
       // change state block
-      account = 'xrb_3igf8hd4sjshoibbbkeitmgkp1o6ug4xads43j6e4gqkj5xk5o83j8ja9php';
+      account = 'cga_3igf8hd4sjshoibbbkeitmgkp1o6ug4xads43j6e4gqkj5xk5o83j8ja9php';
       previous = '128106287002E595F479ACD615C818117FCB3860EC112670557A2467386249D4';
-      representative = 'xrb_1anrzcuwe64rwxzcco8dkhpyxpi8kd7zsjc1oeimpc3ppca4mrjtwnqposrs';
+      representative = 'cga_1anrzcuwe64rwxzcco8dkhpyxpi8kd7zsjc1oeimpc3ppca4mrjtwnqposrs';
       balance = BigInt.parse('3000000000000000000000000000001');
       link = '0000000000000000000000000000000000000000000000000000000000000000';
       calculatedHash = NanoBlocks.computeStateHash(accountType, account, previous, representative, balance, link);

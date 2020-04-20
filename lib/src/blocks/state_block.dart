@@ -8,8 +8,8 @@ import 'package:cgadart/src/util.dart';
 class NanoBlocks {
   static String computeStateHash(int accountType, String account,
       String previous, String representative, BigInt balance, String link) {
-    assert(accountType == NanoAccountType.BANANO ||
-        accountType == NanoAccountType.NANO);
+    assert(accountType == NanoAccountType.XPD ||
+        accountType == NanoAccountType.CGA);
     Uint8List statePreamble = NanoHelpers.hexToBytes(
         "0000000000000000000000000000000000000000000000000000000000000006");
     Uint8List accountBytes =
