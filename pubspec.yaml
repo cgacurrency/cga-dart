@@ -5,7 +5,7 @@ homepage: https://www.cgacoin.net
 author: CGA COIN <hello@cgacoin.net>
 
 environment:
-  sdk: '>=2.2.0 <3.0.0'
+  sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
   pointycastle: ^1.0.1
@@ -16,4 +16,4 @@ dependencies:
 
 dev_dependencies:
   pedantic: ^1.8.0+1
-  test: ^1.6.8
+  test: ^1.14.2
