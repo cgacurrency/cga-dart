@@ -1,6 +1,6 @@
 name: cgadart
 description: Tools for the CGA cryptocurrencies including key generation, signing, encryption, and more.
-version: 1.0.0
+version: 1.0.1
 homepage: https://www.cgacoin.net
 author: CGA COIN <hello@cgacoin.net>
 
