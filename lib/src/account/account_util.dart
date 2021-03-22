@@ -1,4 +1,4 @@
-import "dart:typed_data" show Uint8List;
+import 'dart:typed_data' show Uint8List;
 
 import 'package:cgadart/src/account/account_coder.dart';
 import 'package:cgadart/src/account/account_type.dart';
@@ -10,7 +10,8 @@ class NanoAccounts {
 
   static String createAccount(int accountType, String publicKey) {
     assert(accountType == NanoAccountType.XPD ||
-        accountType == NanoAccountType.CGA);
+        accountType == NanoAccountType.CGA ||
+        accountType == NanoAccountType.CGAB);
     String binaryPubkey = NanoHelpers.hexToBinary(publicKey).padLeft(260, "0");
     String encodedChecksum = calculatedEncodedChecksum(publicKey);
     String encodedPubkey = encoder.encode(binaryPubkey);
@@ -21,7 +22,8 @@ class NanoAccounts {
 
   static String findAccountInString(int accountType, String account) {
     assert(accountType == NanoAccountType.XPD ||
-        accountType == NanoAccountType.CGA);
+        accountType == NanoAccountType.CGA ||
+        accountType == NanoAccountType.CGAB);
     assert(account != null);
     // Ensure regex match
     RegExp regEx = RegExp(NanoAccountType.getRegex(accountType));
@@ -30,14 +32,15 @@ class NanoAccounts {
 
   static bool isValid(int accountType, String account) {
     assert(accountType == NanoAccountType.XPD ||
-        accountType == NanoAccountType.CGA);
+        accountType == NanoAccountType.CGA ||
+        accountType == NanoAccountType.CGAB);
     assert(account != null);
     if (account == null) {
       return false;
     }
     // Ensure regex match
     RegExp regEx = RegExp(NanoAccountType.getRegex(accountType));
-    if (!regEx.hasMatch(account)) { 
+    if (!regEx.hasMatch(account)) {
       return false;
     }
     String expectedChecksum = account.substring(account.length - 8);
@@ -50,22 +53,22 @@ class NanoAccounts {
     return expectedChecksum == encodedChecksum;
   }
 
-  static String extractEncodedPublicKey(String account) {
-    return account.substring(4, 56);
-  }
-
   // static String extractEncodedPublicKey(String account) {
-  //   return account.startsWith("nano_")
-  //       ? account.substring(5, 57)
-  //       : account.substring(4, 56);
+  //   return account.substring(4, 56);
   // }
+
+  static String extractEncodedPublicKey(String account) {
+    return account.startsWith('cgab_')
+        ? account.substring(5, 57)
+        : account.substring(4, 56);
+  }
 
   static String extractPublicKey(String account) {
     assert(account != null);
     String encodedPublicKey = extractEncodedPublicKey(account);
     String binaryPublicKey = encoder.decode(encodedPublicKey).substring(4);
     String hexPublicKey =
-        NanoHelpers.binaryToHex(binaryPublicKey).padLeft(64, "0");
+        NanoHelpers.binaryToHex(binaryPublicKey).padLeft(64, '0');
     return hexPublicKey;
   }
 
@@ -74,7 +77,7 @@ class NanoAccounts {
         Blake2b.digest(5, [NanoHelpers.hexToBytes(publicKey)]));
     String binaryChecksum =
         NanoHelpers.hexToBinary(NanoHelpers.byteToHex(checksum))
-            .padLeft(40, "0");
+            .padLeft(40, '0');
     return encoder.encode(binaryChecksum);
   }
 }

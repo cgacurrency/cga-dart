@@ -9,7 +9,8 @@ class NanoBlocks {
   static String computeStateHash(int accountType, String account,
       String previous, String representative, BigInt balance, String link) {
     assert(accountType == NanoAccountType.XPD ||
-        accountType == NanoAccountType.CGA);
+        accountType == NanoAccountType.CGA ||
+        accountType == NanoAccountType.CGAB);
     Uint8List statePreamble = NanoHelpers.hexToBytes(
         "0000000000000000000000000000000000000000000000000000000000000006");
     Uint8List accountBytes =
