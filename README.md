@@ -1,6 +1,10 @@
+Forked from [appditto/nanodart](https://github.com/appditto/nanodart)
+
 # CGADart
 
-A [CGA](https://cgacoin.net) cryptocurrency library for the [Dart](https://dart.dev) programming language
+A [CGA](https://cgacoin.net) cryptocurrency library for the [Dart](https://dart.dev) programming language.
+
+
 
 ## Features
 
